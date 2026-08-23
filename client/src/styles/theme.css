@@ -1,0 +1,161 @@
+/* ============================================
+   Glassmorphism Design System — Global Theme
+   Liquid Glass v2.0 — see design.md for rationale
+   ============================================
+   Fonts: Load Space Grotesk, Inter, and IBM Plex Mono
+   from Google Fonts in index.html (see <link> tags).
+   ============================================ */
+
+:root {
+  /* Colors — foundation */
+  --bg-base: #0a0b0d;
+  --bg-elevated: #151619;
+  --bg-elevated-2: #1c1e22;
+
+  /* Glass material tokens */
+  --glass-fill: rgba(255, 255, 255, 0.045);
+  --glass-fill-hover: rgba(255, 255, 255, 0.075);
+  --glass-border: rgba(255, 255, 255, 0.09);
+  --glass-border-strong: rgba(255, 255, 255, 0.14);
+  --glass-highlight: rgba(255, 255, 255, 0.5);
+  --glass-shadow: rgba(0, 0, 0, 0.45);
+
+  --text-primary: #edeef0;
+  --text-secondary: #b8bcc4;
+  --text-muted: #6b6f76;
+
+  /* Primary accent — interactive/action elements */
+  --accent: #7c82ff;
+  --accent-glow: rgba(124, 130, 255, 0.4);
+
+  /* Secondary accent — sparing use: sale badges, featured ribbon, hero */
+  --accent-warm: #ff8a5c;
+  --accent-warm-glow: rgba(255, 138, 92, 0.35);
+
+  --success: #4ade80;
+  --error: #f87171;
+  --warning: #fbbf24;
+
+  /* Typography */
+  --font-display: "Space Grotesk", sans-serif;
+  --font-body: "Inter", sans-serif;
+  --font-mono: "IBM Plex Mono", monospace;
+
+  /* Spacing scale (4px base) */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 48px;
+  --space-7: 64px;
+  --space-8: 96px;
+
+  /* Border radius */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-squircle: 28px;
+  --radius-full: 999px;
+}
+
+/* Base body styling using the theme */
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-body);
+  margin: 0;
+  min-height: 100vh;
+}
+
+/* ============================================
+   Utility Classes
+   ============================================ */
+
+/* Liquid Glass panel — three-layer material: fill + border + top specular
+   edge (::before) + elevation shadow, instead of one flat blur value */
+.glass-panel {
+  position: relative;
+  background: var(--glass-fill);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  border-radius: var(--radius-lg);
+  box-shadow:
+    0 1px 0 0 rgba(255, 255, 255, 0.06) inset,
+    0 20px 40px -12px var(--glass-shadow);
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.25s ease, background-color 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.glass-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.06) 0%,
+    transparent 30%
+  );
+  pointer-events: none;
+}
+
+.glass-panel:hover {
+  background: var(--glass-fill-hover);
+  transform: translateY(-4px);
+  box-shadow:
+    0 1px 0 0 rgba(255, 255, 255, 0.1) inset,
+    0 28px 56px -12px var(--glass-shadow);
+}
+
+/* Elevation variants — use alongside .glass-panel for panels that should
+   read as closer/farther in depth (design.md §3 elevation scale) */
+.glass-panel--level1 {
+  box-shadow:
+    0 1px 0 0 rgba(255, 255, 255, 0.05) inset,
+    0 8px 20px -8px var(--glass-shadow);
+}
+
+.glass-panel--level3 {
+  border-color: var(--glass-border-strong);
+  box-shadow:
+    0 1px 0 0 rgba(255, 255, 255, 0.12) inset,
+    0 32px 64px -16px var(--glass-shadow);
+}
+
+/* Squircle corner treatment for primary product/category cards */
+.squircle {
+  border-radius: var(--radius-squircle);
+}
+
+/* Full-page background: layered radial-gradients in dark greys
+   with a faint violet glow, fixed behind all content */
+.bg-gradient-mesh {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(
+      circle at 20% 20%,
+      rgba(124, 130, 255, 0.12),
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 80% 10%,
+      rgba(124, 130, 255, 0.08),
+      transparent 35%
+    ),
+    radial-gradient(
+      circle at 50% 90%,
+      rgba(60, 60, 80, 0.25),
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 10% 80%,
+      rgba(40, 40, 55, 0.2),
+      transparent 45%
+    ),
+    linear-gradient(180deg, #0a0b0d 0%, #101114 50%, #0a0b0d 100%);
+}

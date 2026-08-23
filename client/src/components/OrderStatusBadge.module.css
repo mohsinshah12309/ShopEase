@@ -1,0 +1,56 @@
+/* Create these files in this project (client/src/components), all using the CSS custom properties from theme.css — never hardcode hex values or font names directly:
+
+1. ProductCard.jsx + ProductCard.module.css — accepts a product prop (name, price, discountPrice, images, ratings, numReviews, stock). Renders as a .glass-panel card: product image on top (aspect-ratio 1:1, object-fit cover, rounded top corners matching the card), name in var(--font-display) below, price in var(--font-mono) (show discountPrice struck-through original price if present, discountPrice in var(--accent)), a small StarRating (import from './StarRating') with numReviews count next to it, and an "Out of Stock" label overlay (semi-transparent dark overlay + var(--error) text) if stock is 0. The whole card links to /products/:id. On hover, apply the .glass-panel hover lift already defined in theme.css plus a subtle border color shift to var(--accent) at low opacity.
+
+2. ProductGrid.jsx + ProductGrid.module.css — accepts a products array and a loading boolean. Renders a responsive CSS grid of ProductCard components (auto-fill, minmax(240px, 1fr), gap using var(--space-4)). If loading is true, render 8 skeleton placeholder cards instead (pulsing glass-panel shapes using a shimmer @keyframes animation with var(--glass-fill) and var(--glass-fill-hover) alternating). If products is empty and not loading, show a simple "No products found" empty state message centered, in var(--text-muted).
+
+3. CartItem.jsx + CartItem.module.css — accepts a cartItem prop ({ productId, name, image, price, quantity, stock }) and uses useCart() for updateQuantity and removeFromCart. Renders as a horizontal .glass-panel row: thumbnail image, name + unit price (var(--font-mono)), a quantity stepper (- / input / + buttons, clamped 1 to stock, calls updateQuantity), line total (price * quantity, var(--font-mono), var(--accent)), and a remove button (small 'x' icon, var(--text-muted) default, var(--error) on hover) that calls removeFromCart.
+
+4. ReviewCard.jsx + ReviewCard.module.css — accepts a review prop ({ user (object with name), rating, comment, createdAt }) and an optional onDelete function (shown only if the review belongs to the current user — pass an isOwn boolean prop to control this). Renders as a .glass-panel block: reviewer name in var(--font-display), StarRating (display-only, no onRate) showing the rating, comment text in var(--text-secondary), formatted date (e.g. "Aug 21, 2026") in var(--text-muted) and var(--font-mono), and if isOwn is true, a small "Delete" text button in var(--error) that calls onDelete. */
+
+/* Give me all 8 files (4 components + 4 CSS modules) */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+.pending {
+  background: color-mix(in srgb, var(--warning) 15%, transparent);
+  color: var(--warning);
+}
+
+.processing {
+  background: color-mix(in srgb, var(--accent) 15%, transparent);
+  color: var(--accent);
+}
+
+.shipped {
+  background: color-mix(in srgb, var(--accent-glow) 40%, transparent);
+  color: var(--accent);
+}
+
+.delivered {
+  background: color-mix(in srgb, var(--success) 15%, transparent);
+  color: var(--success);
+}
+
+.cancelled {
+  background: color-mix(in srgb, var(--error) 15%, transparent);
+  color: var(--error);
+}

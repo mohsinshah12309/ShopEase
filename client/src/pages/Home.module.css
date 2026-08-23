@@ -1,0 +1,265 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  padding-bottom: var(--space-8);
+}
+
+/* ============ Hero ============ */
+/* True 3D hero scene (design.md §6.1): perspective on the container +
+   preserve-3d panes rotating on X/Y axes and advancing on Z, not a flat
+   x/y drift. */
+.hero {
+  position: relative;
+  min-height: 70vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: var(--space-6) var(--space-4);
+  perspective: 1400px;
+}
+
+.heroShape {
+  position: absolute;
+  border-radius: var(--radius-lg);
+  pointer-events: none;
+  transform-style: preserve-3d;
+  animation: floatDrift 9s ease-in-out infinite alternate;
+}
+
+.shapeOne {
+  width: 320px;
+  height: 320px;
+  top: 10%;
+  left: 8%;
+  opacity: 0.5;
+}
+
+.shapeTwo {
+  width: 220px;
+  height: 220px;
+  top: 55%;
+  right: 12%;
+  opacity: 0.35;
+  animation-delay: 1s;
+}
+
+.shapeThree {
+  width: 160px;
+  height: 160px;
+  bottom: 12%;
+  left: 30%;
+  opacity: 0.25;
+  animation-delay: 2s;
+}
+
+.heroContent {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.heroTitle {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.heroSubtitle {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+  margin: 0;
+  max-width: 560px;
+}
+
+.ctaButton {
+  display: inline-block;
+  padding: var(--space-3) var(--space-5);
+  background: var(--accent);
+  color: var(--bg-base);
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 20px var(--accent-glow);
+  transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.ctaButton:hover {
+  box-shadow: 0 0 32px var(--accent-glow);
+  transform: translateY(-2px);
+}
+
+/* ============ Sections ============ */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: 0 var(--space-4);
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--text-primary);
+}
+
+/* ============ Category bento grid (design.md §5) ============
+   Mixed card sizes instead of a uniform auto-fill grid: one large
+   featured tile spanning 2×2, smaller tiles around it, and a wide
+   2×1 tile along the bottom. */
+.categoryGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: 240px 240px 200px;
+  gap: var(--space-4);
+  grid-template-areas:
+    "featured featured smallA"
+    "featured featured smallB"
+    "smallC wide wide";
+}
+
+.tileFeatured {
+  grid-area: featured;
+}
+
+.tileSmallA {
+  grid-area: smallA;
+}
+
+.tileSmallB {
+  grid-area: smallB;
+}
+
+.tileSmallC {
+  grid-area: smallC;
+}
+
+.tileWide {
+  grid-area: wide;
+}
+
+/* Z-axis layering cue: the hovered tile lifts forward while the
+   surrounding tiles very slightly recede to yield space to it. */
+.categoryGrid .categoryCard {
+  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+    box-shadow 0.25s ease, background 0.2s ease, opacity 0.25s ease;
+}
+
+.categoryGrid .categoryCard:hover {
+  transform: translateY(-4px) scale(1.01);
+  z-index: 1;
+}
+
+.categoryGrid:hover .categoryCard:not(:hover) {
+  opacity: 0.92;
+}
+
+@media (max-width: 900px) {
+  .categoryGrid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: none;
+    grid-template-areas:
+      "featured featured"
+      "smallA smallB"
+      "smallC wide";
+  }
+}
+
+@media (max-width: 600px) {
+  .categoryGrid {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "featured"
+      "smallA"
+      "smallB"
+      "smallC"
+      "wide";
+  }
+}
+
+.categoryCard {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  text-decoration: none;
+}
+
+.categoryImage {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+}
+
+.categoryScrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    color-mix(in srgb, var(--bg-base) 85%, transparent) 0%,
+    color-mix(in srgb, var(--bg-base) 40%, transparent) 50%,
+    transparent 100%
+  );
+}
+
+.categoryName {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  padding: var(--space-3);
+}
+
+.categorySkeleton {
+  aspect-ratio: 4 / 3;
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
+.emptyCategories {
+  text-align: center;
+  color: var(--text-muted);
+  padding: var(--space-6) 0;
+  margin: 0;
+}
+
+/* ============ Animations ============ */
+@keyframes floatDrift {
+  0% {
+    transform: translate3d(0, 0, 0) rotateX(6deg) rotateY(-8deg);
+  }
+  100% {
+    transform: translate3d(12px, -18px, 40px) rotateX(-4deg) rotateY(10deg);
+  }
+}
+
+@keyframes shimmer {
+  0%,
+  100% {
+    background: var(--glass-fill);
+  }
+  50% {
+    background: var(--glass-fill-hover);
+  }
+}
