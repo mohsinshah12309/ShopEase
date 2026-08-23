@@ -26,8 +26,11 @@ function Contact() {
         <div className={styles.contactInfo}>
           <div className={styles.infoItem}>
             <span className={styles.infoLabel}>Email</span>
-            <a href="mailto:contact@yourstore.com" className={styles.infoValue}>
-              contact@yourstore.com
+            <a
+              href="mailto:alishahmohsin938@gmail.com"
+              className={styles.infoValue}
+            >
+              alishahmohsin938@gmail.com
             </a>
           </div>
 
