@@ -228,7 +228,7 @@ function ProductDetail() {
           </div>
 
           {viewMode === "3d" ? (
-            <Product3DViewer productName={product.name} />
+            <Product3DViewer productName={product.name} imageUrl={currentImage || product.images?.[0]} />
           ) : (
             <>
               <div className={`glass-panel ${styles.mainImageFrame}`}>
