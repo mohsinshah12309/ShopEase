@@ -2,6 +2,7 @@ import axios from "axios";
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
+  timeout: 30000, // 30 seconds — prevents infinite spinner if server hangs
 });
 
 // Attach JWT token to every request if present

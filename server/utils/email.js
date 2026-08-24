@@ -7,6 +7,9 @@ const transporter = nodemailer.createTransport({
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+  // Prevent hung SMTP connections from blocking order responses indefinitely
+  connectionTimeout: 5000,  // 5 s to establish TCP connection
+  socketTimeout: 5000,      // 5 s of inactivity before giving up
 });
 
 const sendOrderConfirmationEmail = async (user, order) => {

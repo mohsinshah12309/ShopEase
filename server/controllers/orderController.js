@@ -119,11 +119,11 @@ const createOrder = async (req, res, next) => {
 
       await adjustUnitsStock(fullOrderItems, -1);
 
-      try {
-        await sendOrderConfirmationEmail(req.user, order);
-      } catch (emailError) {
-        console.error("Failed to send order confirmation email:", emailError);
-      }
+      // Respond immediately — send confirmation email in the background
+      // so the customer sees the success screen without waiting for SMTP.
+      sendOrderConfirmationEmail(req.user, order).catch((emailError) =>
+        console.error("Failed to send order confirmation email:", emailError),
+      );
 
       return res.status(201).json({ success: true, order });
     }
@@ -201,12 +201,10 @@ const confirmPayment = async (req, res, next) => {
 
     await order.save();
 
-    // Send confirmation email (don't fail the request if email sending fails)
-    try {
-      await sendOrderConfirmationEmail(req.user, order);
-    } catch (emailError) {
-      console.error("Failed to send order confirmation email:", emailError);
-    }
+    // Send confirmation email in the background — don't block the response
+    sendOrderConfirmationEmail(req.user, order).catch((emailError) =>
+      console.error("Failed to send order confirmation email:", emailError),
+    );
 
     res.status(200).json({
       success: true,

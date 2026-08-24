@@ -79,9 +79,12 @@ function Checkout() {
         navigate(`/order-success/${data.order._id}`);
       }
     } catch (err) {
+      const isTimeout = err.code === "ECONNABORTED" || err.message?.includes("timeout");
       setError(
-        err.response?.data?.message ||
-          "Failed to create your order. Please try again.",
+        isTimeout
+          ? "The request timed out. Your order may still have been placed — check My Orders before retrying."
+          : err.response?.data?.message ||
+            "Failed to create your order. Please try again.",
       );
     } finally {
       setIsCreatingOrder(false);
