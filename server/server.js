@@ -12,6 +12,8 @@ const cors = require("cors");
 const connectDB = require("./config/db.js");
 const { notFound, errorHandler } = require("./middleware/errorHandler.js");
 
+const { apiLimiter, authLimiter, checkoutLimiter } = require("./middleware/rateLimiter.js");
+
 const authRoutes = require("./routes/authRoutes.js");
 const productRoutes = require("./routes/productRoutes.js");
 const categoryRoutes = require("./routes/categoryRoutes.js");
@@ -20,6 +22,9 @@ const adminRoutes = require("./routes/adminRoutes.js");
 
 const app = express();
 
+// Trust proxy if deployed behind proxy (e.g. Vercel/Render)
+app.set("trust proxy", 1);
+
 // Connect to MongoDB
 connectDB();
 
@@ -27,15 +32,18 @@ connectDB();
 app.use(express.json());
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: process.env.CLIENT_URL || true,
   }),
 );
 
-// Routes
-app.use("/api/auth", authRoutes);
+// Apply Global API Rate Limiter
+app.use("/api", apiLimiter);
+
+// Routes with specialized limiters
+app.use("/api/auth", authLimiter, authRoutes);
+app.use("/api/orders", checkoutLimiter, orderRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/categories", categoryRoutes);
-app.use("/api/orders", orderRoutes);
 app.use("/api/admin", adminRoutes);
 
 // Health check

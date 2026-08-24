@@ -2,11 +2,10 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import api from "../api/axios";
 import ProductGrid from "../components/ProductGrid";
+import Hero3DCanvas from "../components/3d/Hero3DCanvas";
+import TiltCard3D from "../components/3d/TiltCard3D";
 import styles from "./Home.module.css";
 
-// Bento slot order (design.md §5): one large 2×2 featured tile, smaller
-// tiles around it, then a wide 2×1 tile. Categories beyond these five
-// slots auto-place into implicit rows below the bento grid.
 const BENTO_AREA_CLASSES = [
   styles.tileFeatured,
   styles.tileSmallA,
@@ -60,38 +59,76 @@ function Home() {
 
   return (
     <div className={styles.page}>
-      {/* Hero */}
+      {/* 3D Interactive WebGL Hero */}
       <section className={styles.hero}>
-        <div className={`glass-panel ${styles.heroShape} ${styles.shapeOne}`} />
-        <div className={`glass-panel ${styles.heroShape} ${styles.shapeTwo}`} />
-        <div
-          className={`glass-panel ${styles.heroShape} ${styles.shapeThree}`}
-        />
+        <Hero3DCanvas />
 
         <div className={styles.heroContent}>
+          <div className={styles.heroBadge}>
+            <span className={styles.badgeDot} />
+            <span>Next-Gen 3D E-Commerce Showcase</span>
+          </div>
+
           <h1 className={styles.heroTitle}>
-            Discover quality products for every part of your life
+            Discover Curated Goods in <span className="glow-text">Full 3D Space</span>
           </h1>
+
           <p className={styles.heroSubtitle}>
-            From everyday essentials to standout finds, we bring you a curated
-            selection of well-made goods at fair prices — with fast shipping and
-            easy returns on every order.
+            Immerse yourself in an ultra-modern shopping experience. Interactive WebGL 3D previews, real-time spatial tilt, fast global shipping, and zero friction.
           </p>
-          <Link to="/products" className={styles.ctaButton}>
-            Shop Now
-          </Link>
+
+          <div className={styles.heroActions}>
+            <Link to="/products" className={styles.ctaButton}>
+              Explore Collection
+            </Link>
+            <a href="#featured-section" className={styles.secondaryButton}>
+              View Featured
+            </a>
+          </div>
+
+          {/* Stats Bar */}
+          <div className={styles.statsBar}>
+            <div className={styles.statItem}>
+              <span className={styles.statNumber}>10k+</span>
+              <span className={styles.statLabel}>Happy Customers</span>
+            </div>
+            <div className={styles.statDivider} />
+            <div className={styles.statItem}>
+              <span className={styles.statNumber}>99.9%</span>
+              <span className={styles.statLabel}>Uptime & Speed</span>
+            </div>
+            <div className={styles.statDivider} />
+            <div className={styles.statItem}>
+              <span className={styles.statNumber}>3D</span>
+              <span className={styles.statLabel}>Interactive WebGL</span>
+            </div>
+          </div>
         </div>
       </section>
 
-      {/* Featured products */}
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Featured</h2>
+      {/* Featured Products */}
+      <section id="featured-section" className={styles.section}>
+        <div className={styles.sectionHeader}>
+          <div>
+            <span className="badge-3d">Curated Selection</span>
+            <h2 className={styles.sectionTitle}>Featured Products</h2>
+          </div>
+          <Link to="/products" className={styles.viewAllLink}>
+            View All Products &rarr;
+          </Link>
+        </div>
         <ProductGrid products={featuredProducts} loading={featuredLoading} />
       </section>
 
-      {/* Categories */}
+      {/* Categories Bento Grid */}
       <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Shop by Category</h2>
+        <div className={styles.sectionHeader}>
+          <div>
+            <span className="badge-3d">Browse Categories</span>
+            <h2 className={styles.sectionTitle}>Shop by Category</h2>
+          </div>
+        </div>
+
         {categoriesLoading ? (
           <div className={styles.categoryGrid}>
             {Array.from({ length: BENTO_AREA_CLASSES.length }, (_, i) => (
@@ -104,30 +141,34 @@ function Home() {
         ) : categories.length > 0 ? (
           <div className={styles.categoryGrid}>
             {categories.map((category, index) => (
-              <Link
+              <TiltCard3D
                 key={category._id}
-                to={`/products?category=${category.slug}`}
-                className={`glass-panel ${styles.categoryCard} ${
-                  index < BENTO_AREA_CLASSES.length
-                    ? BENTO_AREA_CLASSES[index]
-                    : ""
-                }`}
+                intensity={16}
+                className={`${BENTO_AREA_CLASSES[index] || ""}`}
               >
-                <div
-                  className={styles.categoryImage}
-                  style={{
-                    backgroundImage: category.image
-                      ? `url(${category.image})`
-                      : undefined,
-                  }}
-                />
-                <div className={styles.categoryScrim} />
-                <span className={styles.categoryName}>{category.name}</span>
-              </Link>
+                <Link
+                  to={`/products?category=${category.slug}`}
+                  className={`glass-panel ${styles.categoryCard}`}
+                >
+                  <div
+                    className={styles.categoryImage}
+                    style={{
+                      backgroundImage: category.image
+                        ? `url(${category.image})`
+                        : undefined,
+                    }}
+                  />
+                  <div className={styles.categoryScrim} />
+                  <div className={styles.categoryContent}>
+                    <span className={styles.categoryBadge}>Category</span>
+                    <span className={styles.categoryName}>{category.name}</span>
+                  </div>
+                </Link>
+              </TiltCard3D>
             ))}
           </div>
         ) : (
-          <p className={styles.emptyCategories}>No categories available</p>
+          <p className={styles.emptyCategories}>No categories available right now</p>
         )}
       </section>
     </div>

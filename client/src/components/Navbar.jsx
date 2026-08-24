@@ -22,7 +22,8 @@ function Navbar() {
     <header className={`glass-panel ${styles.header}`}>
       <nav className={styles.nav}>
         <Link to="/" className={styles.logo} onClick={closeMenu}>
-          ShopEase
+          <span className="glow-text">ShopEase</span>
+          <span className="badge-3d">3D</span>
         </Link>
 
         <button

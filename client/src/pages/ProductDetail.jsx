@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { useCart } from "../context/CartContext";
 import StarRating from "../components/StarRating";
 import ReviewCard from "../components/ReviewCard";
+import Product3DViewer from "../components/3d/Product3DViewer";
 import styles from "./ProductDetail.module.css";
 
 function ProductDetail() {
@@ -16,6 +17,7 @@ function ProductDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [activeImage, setActiveImage] = useState(0);
+  const [viewMode, setViewMode] = useState("2d");
   const [quantity, setQuantity] = useState(1);
   // Which selling units are checked for add-to-cart: { [label]: quantity }
   const [unitSelections, setUnitSelections] = useState({});
@@ -186,36 +188,79 @@ function ProductDetail() {
   return (
     <div className={styles.page}>
       <div className={styles.layout}>
-        {/* Left column — image gallery */}
+        {/* Left column — image gallery & 3D WebGL viewer */}
         <div className={styles.gallery}>
-          <div className={`glass-panel ${styles.mainImageFrame}`}>
-            {currentImage ? (
-              <img
-                src={currentImage}
-                alt={product.name}
-                className={styles.mainImage}
-              />
-            ) : (
-              <div className={styles.noImage}>No image</div>
-            )}
+          <div style={{ display: "flex", gap: "8px", marginBottom: "12px" }}>
+            <button
+              type="button"
+              onClick={() => setViewMode("2d")}
+              style={{
+                flex: 1,
+                padding: "8px 16px",
+                borderRadius: "10px",
+                border: viewMode === "2d" ? "1px solid var(--accent)" : "1px solid rgba(255,255,255,0.1)",
+                background: viewMode === "2d" ? "rgba(139, 92, 246, 0.2)" : "rgba(255,255,255,0.04)",
+                color: viewMode === "2d" ? "#fff" : "var(--text-secondary)",
+                fontWeight: 600,
+                cursor: "pointer",
+                transition: "all 0.2s ease",
+              }}
+            >
+              🖼️ Photo View
+            </button>
+            <button
+              type="button"
+              onClick={() => setViewMode("3d")}
+              style={{
+                flex: 1,
+                padding: "8px 16px",
+                borderRadius: "10px",
+                border: viewMode === "3d" ? "1px solid #06b6d4" : "1px solid rgba(255,255,255,0.1)",
+                background: viewMode === "3d" ? "rgba(6, 182, 212, 0.2)" : "rgba(255,255,255,0.04)",
+                color: viewMode === "3d" ? "#06b6d4" : "var(--text-secondary)",
+                fontWeight: 600,
+                cursor: "pointer",
+                transition: "all 0.2s ease",
+              }}
+            >
+              🌐 3D Interactive View
+            </button>
           </div>
 
-          {images.length > 1 && (
-            <div className={styles.thumbnails}>
-              {images.map((img, index) => (
-                <button
-                  key={index}
-                  type="button"
-                  className={`${styles.thumbnail} ${
-                    index === activeImage ? styles.thumbnailActive : ""
-                  }`}
-                  onClick={() => setActiveImage(index)}
-                  aria-label={`View image ${index + 1}`}
-                >
-                  <img src={img} alt="" className={styles.thumbnailImage} />
-                </button>
-              ))}
-            </div>
+          {viewMode === "3d" ? (
+            <Product3DViewer productName={product.name} />
+          ) : (
+            <>
+              <div className={`glass-panel ${styles.mainImageFrame}`}>
+                {currentImage ? (
+                  <img
+                    src={currentImage}
+                    alt={product.name}
+                    className={styles.mainImage}
+                  />
+                ) : (
+                  <div className={styles.noImage}>No image</div>
+                )}
+              </div>
+
+              {images.length > 1 && (
+                <div className={styles.thumbnails}>
+                  {images.map((img, index) => (
+                    <button
+                      key={index}
+                      type="button"
+                      className={`${styles.thumbnail} ${
+                        index === activeImage ? styles.thumbnailActive : ""
+                      }`}
+                      onClick={() => setActiveImage(index)}
+                      aria-label={`View image ${index + 1}`}
+                    >
+                      <img src={img} alt="" className={styles.thumbnailImage} />
+                    </button>
+                  ))}
+                </div>
+              )}
+            </>
           )}
         </div>
 

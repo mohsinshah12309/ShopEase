@@ -5,107 +5,173 @@
   padding-bottom: var(--space-8);
 }
 
-/* ============ Hero ============ */
-/* True 3D hero scene (design.md §6.1): perspective on the container +
-   preserve-3d panes rotating on X/Y axes and advancing on Z, not a flat
-   x/y drift. */
+/* ============ 3D Hero ============ */
 .hero {
   position: relative;
-  min-height: 70vh;
+  min-height: 82vh;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
-  padding: var(--space-6) var(--space-4);
-  perspective: 1400px;
-}
-
-.heroShape {
-  position: absolute;
-  border-radius: var(--radius-lg);
-  pointer-events: none;
-  transform-style: preserve-3d;
-  animation: floatDrift 9s ease-in-out infinite alternate;
-}
-
-.shapeOne {
-  width: 320px;
-  height: 320px;
-  top: 10%;
-  left: 8%;
-  opacity: 0.5;
-}
-
-.shapeTwo {
-  width: 220px;
-  height: 220px;
-  top: 55%;
-  right: 12%;
-  opacity: 0.35;
-  animation-delay: 1s;
-}
-
-.shapeThree {
-  width: 160px;
-  height: 160px;
-  bottom: 12%;
-  left: 30%;
-  opacity: 0.25;
-  animation-delay: 2s;
+  padding: var(--space-8) var(--space-4);
 }
 
 .heroContent {
   position: relative;
-  z-index: 1;
-  max-width: 720px;
+  z-index: 2;
+  max-width: 840px;
   text-align: center;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: var(--space-4);
+  background: rgba(6, 7, 10, 0.45);
+  backdrop-filter: blur(16px);
+  padding: var(--space-6);
+  border-radius: var(--radius-squircle);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+}
+
+.heroBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 16px;
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.35);
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #c4b5fd;
+  letter-spacing: 0.5px;
+}
+
+.badgeDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #06b6d4;
+  box-shadow: 0 0 10px #06b6d4;
+  animation: pulseDot 2s infinite;
+}
+
+@keyframes pulseDot {
+  0%, 100% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.4); opacity: 0.6; }
 }
 
 .heroTitle {
   font-family: var(--font-display);
-  font-size: clamp(2rem, 5vw, 3.5rem);
-  font-weight: 700;
-  line-height: 1.15;
+  font-size: clamp(2.4rem, 5vw, 4rem);
+  font-weight: 800;
+  line-height: 1.1;
   margin: 0;
   color: var(--text-primary);
+  letter-spacing: -1px;
 }
 
 .heroSubtitle {
-  font-size: 1.1rem;
+  font-size: 1.15rem;
   line-height: 1.6;
   color: var(--text-secondary);
   margin: 0;
-  max-width: 560px;
+  max-width: 640px;
+}
+
+.heroActions {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
 }
 
 .ctaButton {
-  display: inline-block;
-  padding: var(--space-3) var(--space-5);
-  background: var(--accent);
-  color: var(--bg-base);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 32px;
+  background: linear-gradient(135deg, #8b5cf6 0%, #06b6d4 100%);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 700;
+  text-decoration: none;
+  border-radius: var(--radius-md);
+  box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+  transition: all 0.3s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.ctaButton:hover {
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 0 45px rgba(6, 182, 212, 0.7);
+}
+
+.secondaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 28px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-primary);
   font-family: var(--font-display);
   font-size: 1rem;
   font-weight: 600;
   text-decoration: none;
   border-radius: var(--radius-md);
-  box-shadow: 0 0 20px var(--accent-glow);
-  transition: box-shadow 0.3s ease, transform 0.3s ease;
+  backdrop-filter: blur(8px);
+  transition: all 0.25s ease;
 }
 
-.ctaButton:hover {
-  box-shadow: 0 0 32px var(--accent-glow);
-  transform: translateY(-2px);
+.secondaryButton:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+.statsBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: var(--space-4);
+  width: 100%;
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.statItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.statNumber {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #fff;
+  background: linear-gradient(135deg, #a78bfa 0%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.statLabel {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.statDivider {
+  width: 1px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.1);
 }
 
 /* ============ Sections ============ */
 .section {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-5);
   padding: 0 var(--space-4);
   max-width: 1200px;
   margin: 0 auto;
@@ -113,18 +179,35 @@
   box-sizing: border-box;
 }
 
-.sectionTitle {
-  font-family: var(--font-display);
-  font-size: 1.75rem;
-  font-weight: 700;
-  margin: 0;
-  color: var(--text-primary);
+.sectionHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-3);
 }
 
-/* ============ Category bento grid (design.md §5) ============
-   Mixed card sizes instead of a uniform auto-fill grid: one large
-   featured tile spanning 2×2, smaller tiles around it, and a wide
-   2×1 tile along the bottom. */
+.sectionTitle {
+  font-family: var(--font-display);
+  font-size: 2rem;
+  font-weight: 800;
+  margin: 6px 0 0 0;
+  color: var(--text-primary);
+  letter-spacing: -0.5px;
+}
+
+.viewAllLink {
+  color: var(--cyan-accent);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: color 0.2s ease;
+}
+
+.viewAllLink:hover {
+  color: #fff;
+}
+
+/* ============ Bento Grid ============ */
 .categoryGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -136,46 +219,16 @@
     "smallC wide wide";
 }
 
-.tileFeatured {
-  grid-area: featured;
-}
-
-.tileSmallA {
-  grid-area: smallA;
-}
-
-.tileSmallB {
-  grid-area: smallB;
-}
-
-.tileSmallC {
-  grid-area: smallC;
-}
-
-.tileWide {
-  grid-area: wide;
-}
-
-/* Z-axis layering cue: the hovered tile lifts forward while the
-   surrounding tiles very slightly recede to yield space to it. */
-.categoryGrid .categoryCard {
-  transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
-    box-shadow 0.25s ease, background 0.2s ease, opacity 0.25s ease;
-}
-
-.categoryGrid .categoryCard:hover {
-  transform: translateY(-4px) scale(1.01);
-  z-index: 1;
-}
-
-.categoryGrid:hover .categoryCard:not(:hover) {
-  opacity: 0.92;
-}
+.tileFeatured { grid-area: featured; }
+.tileSmallA { grid-area: smallA; }
+.tileSmallB { grid-area: smallB; }
+.tileSmallC { grid-area: smallC; }
+.tileWide { grid-area: wide; }
 
 @media (max-width: 900px) {
   .categoryGrid {
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: none;
+    grid-template-rows: auto;
     grid-template-areas:
       "featured featured"
       "smallA smallB"
@@ -193,15 +246,24 @@
       "smallC"
       "wide";
   }
+  .statsBar {
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+  .statDivider {
+    display: none;
+  }
 }
 
 .categoryCard {
   position: relative;
-  aspect-ratio: 4 / 3;
+  height: 100%;
+  width: 100%;
   display: flex;
   align-items: flex-end;
   overflow: hidden;
   text-decoration: none;
+  border-radius: var(--radius-lg);
 }
 
 .categoryImage {
@@ -209,6 +271,11 @@
   inset: 0;
   background-size: cover;
   background-position: center;
+  transition: transform 0.4s cubic-bezier(0.2, 1, 0.3, 1);
+}
+
+.categoryCard:hover .categoryImage {
+  transform: scale(1.08);
 }
 
 .categoryScrim {
@@ -216,20 +283,34 @@
   inset: 0;
   background: linear-gradient(
     to top,
-    color-mix(in srgb, var(--bg-base) 85%, transparent) 0%,
-    color-mix(in srgb, var(--bg-base) 40%, transparent) 50%,
+    rgba(6, 7, 10, 0.95) 0%,
+    rgba(6, 7, 10, 0.4) 50%,
     transparent 100%
   );
 }
 
-.categoryName {
+.categoryContent {
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  padding: var(--space-4);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.categoryBadge {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--cyan-accent);
+  font-weight: 700;
+}
+
+.categoryName {
   font-family: var(--font-display);
-  font-size: 1.1rem;
-  font-weight: 600;
-  color: var(--text-primary);
-  padding: var(--space-3);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #fff;
 }
 
 .categorySkeleton {
@@ -241,25 +322,9 @@
   text-align: center;
   color: var(--text-muted);
   padding: var(--space-6) 0;
-  margin: 0;
-}
-
-/* ============ Animations ============ */
-@keyframes floatDrift {
-  0% {
-    transform: translate3d(0, 0, 0) rotateX(6deg) rotateY(-8deg);
-  }
-  100% {
-    transform: translate3d(12px, -18px, 40px) rotateX(-4deg) rotateY(10deg);
-  }
 }
 
 @keyframes shimmer {
-  0%,
-  100% {
-    background: var(--glass-fill);
-  }
-  50% {
-    background: var(--glass-fill-hover);
-  }
+  0%, 100% { background: var(--glass-fill); }
+  50% { background: var(--glass-fill-hover); }
 }

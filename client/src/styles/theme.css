@@ -1,47 +1,46 @@
 /* ============================================
-   Glassmorphism Design System — Global Theme
-   Liquid Glass v2.0 — see design.md for rationale
-   ============================================
-   Fonts: Load Space Grotesk, Inter, and IBM Plex Mono
-   from Google Fonts in index.html (see <link> tags).
+   Glassmorphism & 3D Neo-Luxury Design System
+   ShopEase 3D v3.0
    ============================================ */
 
 :root {
   /* Colors — foundation */
-  --bg-base: #0a0b0d;
-  --bg-elevated: #151619;
-  --bg-elevated-2: #1c1e22;
+  --bg-base: #06070a;
+  --bg-elevated: #0f1117;
+  --bg-elevated-2: #161922;
 
   /* Glass material tokens */
-  --glass-fill: rgba(255, 255, 255, 0.045);
-  --glass-fill-hover: rgba(255, 255, 255, 0.075);
-  --glass-border: rgba(255, 255, 255, 0.09);
-  --glass-border-strong: rgba(255, 255, 255, 0.14);
-  --glass-highlight: rgba(255, 255, 255, 0.5);
-  --glass-shadow: rgba(0, 0, 0, 0.45);
+  --glass-fill: rgba(255, 255, 255, 0.04);
+  --glass-fill-hover: rgba(255, 255, 255, 0.08);
+  --glass-border: rgba(255, 255, 255, 0.12);
+  --glass-border-strong: rgba(124, 130, 255, 0.35);
+  --glass-highlight: rgba(255, 255, 255, 0.6);
+  --glass-shadow: rgba(0, 0, 0, 0.6);
 
-  --text-primary: #edeef0;
-  --text-secondary: #b8bcc4;
-  --text-muted: #6b6f76;
+  --text-primary: #f3f4f6;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
 
-  /* Primary accent — interactive/action elements */
-  --accent: #7c82ff;
-  --accent-glow: rgba(124, 130, 255, 0.4);
+  /* Primary accent — interactive neon violet */
+  --accent: #8b5cf6;
+  --accent-glow: rgba(139, 92, 246, 0.5);
+  --cyan-accent: #06b6d4;
+  --cyan-glow: rgba(6, 182, 212, 0.5);
 
-  /* Secondary accent — sparing use: sale badges, featured ribbon, hero */
-  --accent-warm: #ff8a5c;
-  --accent-warm-glow: rgba(255, 138, 92, 0.35);
+  /* Secondary accent — warm neon orange */
+  --accent-warm: #ff6b35;
+  --accent-warm-glow: rgba(255, 107, 53, 0.45);
 
-  --success: #4ade80;
-  --error: #f87171;
-  --warning: #fbbf24;
+  --success: #10b981;
+  --error: #ef4444;
+  --warning: #f59e0b;
 
   /* Typography */
-  --font-display: "Space Grotesk", sans-serif;
-  --font-body: "Inter", sans-serif;
+  --font-display: "Space Grotesk", system-ui, sans-serif;
+  --font-body: "Inter", system-ui, sans-serif;
   --font-mono: "IBM Plex Mono", monospace;
 
-  /* Spacing scale (4px base) */
+  /* Spacing scale */
   --space-1: 4px;
   --space-2: 8px;
   --space-3: 16px;
@@ -54,35 +53,34 @@
   /* Border radius */
   --radius-sm: 8px;
   --radius-md: 14px;
-  --radius-lg: 20px;
+  --radius-lg: 22px;
   --radius-squircle: 28px;
-  --radius-full: 999px;
+  --radius-full: 9999px;
 }
 
-/* Base body styling using the theme */
+/* Base body styling */
 body {
   background-color: var(--bg-base);
   color: var(--text-primary);
   font-family: var(--font-body);
   margin: 0;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 /* ============================================
-   Utility Classes
+   Glassmorphism & 3D Utility Classes
    ============================================ */
 
-/* Liquid Glass panel — three-layer material: fill + border + top specular
-   edge (::before) + elevation shadow, instead of one flat blur value */
 .glass-panel {
   position: relative;
   background: var(--glass-fill);
   border: 1px solid var(--glass-border);
-  backdrop-filter: blur(20px) saturate(140%);
-  -webkit-backdrop-filter: blur(20px) saturate(140%);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
   border-radius: var(--radius-lg);
   box-shadow:
-    0 1px 0 0 rgba(255, 255, 255, 0.06) inset,
+    0 1px 0 0 rgba(255, 255, 255, 0.08) inset,
     0 20px 40px -12px var(--glass-shadow);
   transition: transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
     box-shadow 0.25s ease, background-color 0.2s ease,
@@ -96,22 +94,20 @@ body {
   border-radius: inherit;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.06) 0%,
-    transparent 30%
+    rgba(255, 255, 255, 0.08) 0%,
+    transparent 35%
   );
   pointer-events: none;
 }
 
 .glass-panel:hover {
   background: var(--glass-fill-hover);
-  transform: translateY(-4px);
+  border-color: rgba(139, 92, 246, 0.4);
   box-shadow:
-    0 1px 0 0 rgba(255, 255, 255, 0.1) inset,
-    0 28px 56px -12px var(--glass-shadow);
+    0 1px 0 0 rgba(255, 255, 255, 0.15) inset,
+    0 24px 48px -12px rgba(139, 92, 246, 0.25);
 }
 
-/* Elevation variants — use alongside .glass-panel for panels that should
-   read as closer/farther in depth (design.md §3 elevation scale) */
 .glass-panel--level1 {
   box-shadow:
     0 1px 0 0 rgba(255, 255, 255, 0.05) inset,
@@ -121,41 +117,92 @@ body {
 .glass-panel--level3 {
   border-color: var(--glass-border-strong);
   box-shadow:
-    0 1px 0 0 rgba(255, 255, 255, 0.12) inset,
-    0 32px 64px -16px var(--glass-shadow);
+    0 1px 0 0 rgba(255, 255, 255, 0.15) inset,
+    0 32px 64px -16px rgba(6, 182, 212, 0.25);
 }
 
-/* Squircle corner treatment for primary product/category cards */
 .squircle {
   border-radius: var(--radius-squircle);
 }
 
-/* Full-page background: layered radial-gradients in dark greys
-   with a faint violet glow, fixed behind all content */
+/* Full-page futuristic background mesh */
 .bg-gradient-mesh {
   position: fixed;
   inset: 0;
   z-index: -1;
   background:
     radial-gradient(
-      circle at 20% 20%,
-      rgba(124, 130, 255, 0.12),
+      circle at 15% 15%,
+      rgba(139, 92, 246, 0.18),
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 85% 20%,
+      rgba(6, 182, 212, 0.15),
       transparent 40%
     ),
     radial-gradient(
-      circle at 80% 10%,
-      rgba(124, 130, 255, 0.08),
-      transparent 35%
-    ),
-    radial-gradient(
-      circle at 50% 90%,
-      rgba(60, 60, 80, 0.25),
+      circle at 50% 80%,
+      rgba(255, 107, 53, 0.12),
       transparent 50%
     ),
     radial-gradient(
-      circle at 10% 80%,
-      rgba(40, 40, 55, 0.2),
+      circle at 80% 90%,
+      rgba(139, 92, 246, 0.12),
       transparent 45%
     ),
-    linear-gradient(180deg, #0a0b0d 0%, #101114 50%, #0a0b0d 100%);
+    linear-gradient(180deg, #06070a 0%, #0c0e14 50%, #06070a 100%);
+}
+
+/* 3D Glowing Text & Badges */
+.glow-text {
+  background: linear-gradient(135deg, #ffffff 0%, #a78bfa 50%, #06b6d4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  text-shadow: 0 0 30px rgba(167, 139, 250, 0.3);
+}
+
+.badge-3d {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  background: rgba(139, 92, 246, 0.15);
+  border: 1px solid rgba(139, 92, 246, 0.3);
+  color: #c4b5fd;
+  box-shadow: 0 0 12px rgba(139, 92, 246, 0.2);
+}
+
+/* Rate Limit Toast Alert */
+.rate-limit-toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 9999;
+  background: rgba(15, 17, 23, 0.95);
+  border: 1px solid rgba(239, 68, 68, 0.6);
+  color: #fca5a5;
+  padding: 14px 20px;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);
+  backdrop-filter: blur(16px);
+  font-weight: 600;
+  font-size: 14px;
+  animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
