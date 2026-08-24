@@ -37,7 +37,7 @@ function Register() {
     <div className={styles.page}>
       <div className={`glass-panel ${styles.card}`}>
         <h1 className={styles.title}>Create Account</h1>
-        <p className={styles.subtitle}>Join ShopEase and start shopping</p>
+        <p className={styles.subtitle}>Join Nexura and start shopping</p>
 
         <form className={styles.form} onSubmit={handleSubmit} noValidate>
           <div className={styles.field}>

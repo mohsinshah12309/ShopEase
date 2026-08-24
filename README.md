@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🛍️ ShopEase
+# 🛍️ Nexura
 
 ### A Full-Stack MERN E-Commerce Platform
 
@@ -20,7 +20,7 @@
 
 ## 📖 About
 
-**ShopEase** is a production-grade, full-stack e-commerce platform built as the capstone project of the **Web / MERN Stack Summer Internship** at **The Tech Pulses**. It brings together everything from authentication and REST API design to real payment processing and an admin analytics dashboard — a complete, deployable online store, built entirely from scratch.
+**Nexura** is a production-grade, full-stack e-commerce platform built as the capstone project of the **Web / MERN Stack Summer Internship** at **The Tech Pulses**. It brings together everything from authentication and REST API design to real payment processing and an admin analytics dashboard — a complete, deployable online store, built entirely from scratch.
 
 Two roles power the platform:
 
@@ -203,7 +203,7 @@ All responses follow a consistent shape:
 ## 📂 Project Structure
 
 ```
-ShopEase/
+Nexura/
 ├── server/
 │   ├── server.js
 │   ├── config/          # db.js, cloudinary.js

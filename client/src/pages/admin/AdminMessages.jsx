@@ -152,7 +152,7 @@ function AdminMessages() {
                   {msg.status === "unread" ? "Mark as Read" : "Mark as Unread"}
                 </button>
                 <a
-                  href={`mailto:${msg.email}?subject=RE: Your contact message on ShopEase`}
+                  href={`mailto:${msg.email}?subject=RE: Your contact message on Nexura`}
                   className={styles.replyBtn}
                 >
                   Reply Email

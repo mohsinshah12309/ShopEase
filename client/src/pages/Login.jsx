@@ -77,7 +77,7 @@ function Login() {
     <div className={styles.page}>
       <div className={`glass-panel ${styles.card}`}>
         <h1 className={styles.title}>Welcome Back</h1>
-        <p className={styles.subtitle}>Log in to your ShopEase account</p>
+        <p className={styles.subtitle}>Log in to your Nexura account</p>
 
         <form className={styles.form} onSubmit={handleSubmit} noValidate>
           <div className={styles.field}>

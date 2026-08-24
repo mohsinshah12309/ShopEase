@@ -7,7 +7,7 @@ function Footer() {
   return (
     <footer className={`glass-panel ${styles.footer}`}>
       <div className={styles.container}>
-        <span className={styles.siteName}>ShopEase</span>
+        <span className={styles.siteName}>Nexura</span>
         <nav className={styles.links} aria-label="Footer navigation">
           <Link to="/about" className={styles.link}>
             About
@@ -21,7 +21,7 @@ function Footer() {
         </nav>
       </div>
       <p className={styles.copyright}>
-        &copy; {year} ShopEase. All rights reserved.
+        &copy; {year} Nexura. All rights reserved.
       </p>
     </footer>
   );
