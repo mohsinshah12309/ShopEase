@@ -13,4 +13,9 @@ router.post("/users", adminController.createAdmin);
 router.put("/users/:id/role", adminController.updateUserRole);
 router.delete("/users/:id", adminController.deleteUser);
 
+// Admin Messages
+router.get("/messages", adminController.getAllMessages);
+router.patch("/messages/:id", adminController.updateMessageStatus);
+router.delete("/messages/:id", adminController.deleteMessage);
+
 module.exports = router;

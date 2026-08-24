@@ -1,11 +1,12 @@
 const User = require("../models/User");
 const Product = require("../models/Product");
 const Order = require("../models/Order");
+const Message = require("../models/Message");
 
 // Get dashboard statistics
 const getStats = async (req, res, next) => {
   try {
-    const [revenueResult, totalOrders, totalProducts, totalCustomers] =
+    const [revenueResult, totalOrders, totalProducts, totalCustomers, totalMessages, unreadMessages] =
       await Promise.all([
         Order.aggregate([
           { $match: { isPaid: true } },
@@ -14,6 +15,8 @@ const getStats = async (req, res, next) => {
         Order.countDocuments(),
         Product.countDocuments(),
         User.countDocuments({ role: "customer" }),
+        Message.countDocuments(),
+        Message.countDocuments({ status: "unread" }),
       ]);
 
     const totalRevenue = revenueResult.length > 0 ? revenueResult[0].total : 0;
@@ -25,6 +28,8 @@ const getStats = async (req, res, next) => {
         totalOrders,
         totalProducts,
         totalCustomers,
+        totalMessages,
+        unreadMessages,
       },
     });
   } catch (error) {
@@ -237,6 +242,81 @@ const deleteUser = async (req, res, next) => {
   }
 };
 
+// Get all customer contact messages
+const getAllMessages = async (req, res, next) => {
+  try {
+    const filter = {};
+    if (req.query.status && ["unread", "read"].includes(req.query.status)) {
+      filter.status = req.query.status;
+    }
+
+    const messages = await Message.find(filter).sort({ createdAt: -1 });
+    const unreadCount = await Message.countDocuments({ status: "unread" });
+
+    res.status(200).json({
+      success: true,
+      messages,
+      unreadCount,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Update message status (read / unread)
+const updateMessageStatus = async (req, res, next) => {
+  try {
+    const message = await Message.findById(req.params.id);
+
+    if (!message) {
+      return res.status(404).json({
+        success: false,
+        message: "Message not found",
+      });
+    }
+
+    const { status } = req.body;
+    if (status && ["unread", "read"].includes(status)) {
+      message.status = status;
+    } else {
+      // toggle
+      message.status = message.status === "unread" ? "read" : "unread";
+    }
+
+    await message.save();
+
+    res.status(200).json({
+      success: true,
+      message,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// Delete a message
+const deleteMessage = async (req, res, next) => {
+  try {
+    const message = await Message.findById(req.params.id);
+
+    if (!message) {
+      return res.status(404).json({
+        success: false,
+        message: "Message not found",
+      });
+    }
+
+    await message.deleteOne();
+
+    res.status(200).json({
+      success: true,
+      message: "Message deleted successfully",
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports = {
   getStats,
   getRevenueChart,
@@ -244,4 +324,7 @@ module.exports = {
   createAdmin,
   updateUserRole,
   deleteUser,
+  getAllMessages,
+  updateMessageStatus,
+  deleteMessage,
 };

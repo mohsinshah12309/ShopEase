@@ -129,6 +129,9 @@ function Dashboard() {
   const customersCount = useCountUp(
     statsLoading ? null : (stats.totalCustomers ?? 0),
   );
+  const messagesCount = useCountUp(
+    statsLoading ? null : (stats.totalMessages ?? 0),
+  );
 
   const statCards = [
     {
@@ -139,6 +142,7 @@ function Dashboard() {
     { label: "Total Orders", value: ordersCount },
     { label: "Total Products", value: productsCount },
     { label: "Total Customers", value: customersCount },
+    { label: "Contact Messages", value: messagesCount + (stats.unreadMessages ? ` (${stats.unreadMessages} unread)` : "") },
   ];
 
   const quickLinks = [
@@ -158,6 +162,11 @@ function Dashboard() {
       description: "View and update orders",
     },
     { to: "/admin/users", label: "Users", description: "Manage customers" },
+    {
+      to: "/admin/messages",
+      label: "Messages",
+      description: "View customer contact inquiries",
+    },
   ];
 
   return (

@@ -19,6 +19,7 @@ const productRoutes = require("./routes/productRoutes.js");
 const categoryRoutes = require("./routes/categoryRoutes.js");
 const orderRoutes = require("./routes/orderRoutes.js");
 const adminRoutes = require("./routes/adminRoutes.js");
+const contactRoutes = require("./routes/contactRoutes.js");
 
 const app = express();
 
@@ -45,6 +46,7 @@ app.use("/api/orders", checkoutLimiter, orderRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/categories", categoryRoutes);
 app.use("/api/admin", adminRoutes);
+app.use("/api/contact", contactRoutes);
 
 // Health check
 app.get("/", (req, res) => {

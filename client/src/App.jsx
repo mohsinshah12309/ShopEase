@@ -33,6 +33,7 @@ import EditProduct from "./pages/admin/EditProduct";
 import AdminOrders from "./pages/admin/AdminOrders";
 import AdminUsers from "./pages/admin/AdminUsers";
 import AdminCategories from "./pages/admin/AdminCategories";
+import AdminMessages from "./pages/admin/AdminMessages";
 
 function App() {
   return (
@@ -95,6 +96,7 @@ function App() {
                 <Route path="/admin/categories" element={<AdminCategories />} />
                 <Route path="/admin/orders" element={<AdminOrders />} />
                 <Route path="/admin/users" element={<AdminUsers />} />
+                <Route path="/admin/messages" element={<AdminMessages />} />
               </Route>
 
               {/* Catch-all */}

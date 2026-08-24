@@ -1,4 +1,5 @@
 import { useState } from "react";
+import api from "../api/axios";
 import styles from "./Contact.module.css";
 
 function Contact() {
@@ -7,15 +8,32 @@ function Contact() {
     email: "",
     message: "",
   });
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
+    if (!formData.name || !formData.email || !formData.message) {
+      setError("Please fill out all fields.");
+      return;
+    }
+
+    setLoading(true);
+    setError("");
+
+    try {
+      await api.post("/contact", formData);
+      setSubmitted(true);
+    } catch (err) {
+      setError(err.response?.data?.message || "Failed to send message. Please try again.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -118,8 +136,10 @@ function Contact() {
               />
             </div>
 
-            <button type="submit" className={styles.submitBtn}>
-              Send Message
+            {error && <p style={{ color: "var(--error)", fontSize: "0.9rem", margin: "8px 0" }}>{error}</p>}
+
+            <button type="submit" className={styles.submitBtn} disabled={loading}>
+              {loading ? "Sending..." : "Send Message"}
             </button>
           </form>
         )}
